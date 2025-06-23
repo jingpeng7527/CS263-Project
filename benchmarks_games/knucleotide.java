@@ -7,6 +7,7 @@ package benchmarks_games;/* The Computer Language Benchmarks Game
  */
 
 import com.sun.management.OperatingSystemMXBean;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.lang.management.ManagementFactory;
 import java.util.*;
@@ -88,13 +89,13 @@ public class knucleotide {
         FileInputStream fis = new FileInputStream("benchmarks_games/read.txt");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-        while ((line = in.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
             if (line.startsWith(">THREE")) break;
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte bytes[] = new byte[100];
-        while((line = in.readLine()) != null) {
+        while((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
             if (line.length() > bytes.length)
                 bytes = new byte[line.length()];
 
